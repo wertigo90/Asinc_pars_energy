@@ -20,28 +20,60 @@ def get_data(url):
         driver = webdriver.Firefox(executable_path=path_drv, options=options)
         driver.get(url=url)
         time.sleep(3)
-        driver.find_element(By.TAG_NAME,'li').()
-        #клик на фильтр субъекта
-        # driver.find_element(By.ID,"workplaceForm:disconnectionTabsView:j_idt3967").click()
-        # time.sleep(2)
-        # #Выбор субъекта из списка
-        # sel_subj = driver.find_element(By.ID,'workplaceForm:disconnectionTabsView:j_idt3967_items')
-        # sel_subj = driver.find_element(By.ID,"workplaceForm:disconnectionTabsView:j_idt3967_0").click()
-        # time.sleep(2)
-        # # Клик на показать
-        # show = driver.find_element(By.ID,"workplaceForm:disconnectionTabsView:j_idt4002").click()
-        # time.sleep(5)
+
+        # Введение даты начала
+        driver.find_element(By.ID, 'workplaceForm:disconnectionTabsView:DataOtklFilter_input').click()
+        driver.find_element(By.ID, 'workplaceForm:disconnectionTabsView:DataOtklFilter_input').clear()
+        driver.find_element(By.ID, 'workplaceForm:disconnectionTabsView:DataOtklFilter_input').send_keys('03062022')
+        time.sleep(1)
+        # Введение времени начала
+        driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt3994_input").click()
+        driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt3994_input").clear()
+        driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt3994_input").send_keys('0000')
+        time.sleep(1)
+        # Введение даты окончания
+        driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:DataRecoveryFilter_input").click()
+        driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:DataRecoveryFilter_input").clear()
+        driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:DataRecoveryFilter_input").send_keys('04062022')
+        time.sleep(1)
+        # Введение времени окончания
+        driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt4000_input").click()
+        driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt4000_input").clear()
+        driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt4000_input").send_keys('0000')
+        time.sleep(1)
+
+        # клик на фильтр субъекта
+        driver.find_element(By.ID,"workplaceForm:disconnectionTabsView:j_idt3967").click()
+        time.sleep(2)
+        #Выбор субъекта из списка
+        sel_subj = driver.find_element(By.ID,'workplaceForm:disconnectionTabsView:j_idt3967_items')
+        sel_subj = driver.find_element(By.ID,"workplaceForm:disconnectionTabsView:j_idt3967_4").click()
+        time.sleep(2)
+        # Клик на показать
+        driver.find_element(By.ID,"workplaceForm:disconnectionTabsView:j_idt4002").click()
+        time.sleep(3)
+
+        next = driver.find_element(By.XPATH,"//*[@id='workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom']/a[3]")#.click()
+        while next:
+            next.click()
+            time.sleep(2)
+            page = driver.find_element(By.XPATH, '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/span')
+            page = page.find_elements(By.CSS_SELECTOR, '#workplaceForm\:disconnectionTabsView\:disconnectionReests_paginator_bottom > span > a.ui-paginator-page.ui-state-default.ui-corner-all.ui-state-active')
+            # page = page.find_element('aria-label')
+            print(page)
+        pprint(next)
+
+        time.sleep(5)
+        # pprint(next)
+        # if
+        #     driver.find_element(By.CLASS_NAME, 'ui-paginator-next ui-state-default ui-corner-all').click()
 
 
-        # driver.
-        # print(driver.page_source)
 
         with open("index.html", "w", encoding='utf-8') as file:
             file.write(driver.page_source)
-
-
-
         time.sleep(5)
+
 
     except Exception as ex:
         print(ex)
