@@ -14,9 +14,12 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 import pandas as pd
 
+#################################################
+################  Создание БД  ##################
+#################################################
 conn = sqlite3.connect('discon.db')
 cur = conn.cursor()
-
+########## Наполнение базы таблицей
 cur.execute('''CREATE TABLE IF NOT EXISTS disconections(            
             subject TEXT,
             organisation TEXT,
@@ -34,10 +37,13 @@ cur.execute('''CREATE TABLE IF NOT EXISTS disconections(
             namework TEXT,
             numpeop INT);
             ''')
+cur.execute('DELETE FROM disconections;',);
 conn.commit()
 conn.close()
 
-path_drv = 'C:\\Users\\smurov.anatoliy\\PycharmProjects\\Asinc_pars_energ\\geckodriver.exe'
+############ Выбор пути драйвера и сайта
+# path_drv = 'C:\\Users\\smurov.anatoliy\\PycharmProjects\\Asinc_pars_energ\\geckodriver.exe'# для Linux скачать соответствующий драйвер и указать путь.
+path_drv = 'C:\\Users\\smurov.anatoliy\\PycharmProjects\\Asinc_pars_energ\\chromedriver.exe'
 url = 'https://xn----7sb7akeedqd.xn--p1ai/platform/portal/tehprisEE_disconnection'
 
 ids = list(range(85))
@@ -46,22 +52,36 @@ date_start = date_start.strftime("%d.%m.%Y")
 date_end = datetime.now() + timedelta(days=1)
 date_end = date_end.strftime("%d.%m.%Y")
 
-options = webdriver.FirefoxOptions()
-options.headless = True
-options.set_preference(
-    'general.useragent.override',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36',
-)
-profile = webdriver.FirefoxProfile()
-profile.set_preference("network.proxy.type", 0) # Direct = 0
-driver = webdriver.Firefox(executable_path=path_drv, options=options, firefox_profile=profile)
-driver.maximize_window()
+options = webdriver.ChromeOptions()
+options.add_argument("start-maximized")
+options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36")
+# options.add_argument("--headless")
+
+driver = webdriver.Chrome(executable_path= path_drv, options= options)
+driver.implicitly_wait(2)
+driver.set_page_load_timeout(20)
+
+# options = webdriver.FirefoxOptions()
+# options.headless = False  #True - работа в фоне False - открытие браузера
+# options.set_preference(
+#     'general.useragent.override',
+#     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36',
+# )
+# profile = webdriver.FirefoxProfile()
+# profile.set_preference("network.proxy.type", 0) # Direct = 0 - без прокси
+# driver = webdriver.Firefox(executable_path=path_drv, options=options, firefox_profile=profile)
+# driver.maximize_window()
 wait = ww(driver, 5)
 
 
+#################################################
+###############  Перебор сайта  #################
+#################################################
 def get_data(url):
     driver.get(url=url)
+
     name_subj = ''
+    # вводим
     try:
         time.sleep(5)
         wait.until(
@@ -88,11 +108,13 @@ def get_data(url):
                 try:
                     wait.until(lambda d: d.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt3967")).click()
                     pprint('клик фильтр')
-                except ElementClickInterceptedException:
-                    print('click filter')
-                    time.sleep(1)
-                    cccc+=1
-                    continue
+                # except ElementClickInterceptedException:
+                #     print('click filter')
+                #     time.sleep(1)
+                #     cccc+=1
+                #     continue
+                except Exception as ex:
+                    print(ex)
                 else:
                     break
             # Выбор субъекта из списка
@@ -112,11 +134,14 @@ def get_data(url):
                     # print(name_subj)
                     sel_subj.click()
                     pprint('клик субъект')
+                    time.sleep(1)
                 except ElementNotInteractableException:
                     print("click subj")
                     time.sleep(1)
                     cccc += 1
                     continue
+                # except Exception as ex:
+                #     print (ex)
                 else:
                     break
 
@@ -125,13 +150,16 @@ def get_data(url):
             cccc = 0
             while True:
                 try:
-                    click = driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt4002")
+                    click = wait.until(EC.element_to_be_clickable((By.ID, "workplaceForm:disconnectionTabsView:j_idt4002")))
+                    # click = driver.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt4002")
                     click.click()
-                except ElementClickInterceptedException:
-                    print('click show')
-                    cccc += 1
-                    time.sleep(2)
-                    continue
+                # except ElementClickInterceptedException:
+                #     print('click show')
+                #     cccc += 1
+                #     time.sleep(2)
+                #     continue
+                except Exception as ex:
+                    print(ex)
                 else:
                     break
 
@@ -161,9 +189,10 @@ def get_data(url):
                 try:
                     start_page = wait.until(lambda d: d.find_element(By.XPATH,
                                                                      '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/a[1]'))
+
                     start_page.click()
                 except Exception as ex:
-                    print('id')
+                    print('back')
                     print(ex)
                     cccc+=1
                     time.sleep(0.5)
@@ -171,30 +200,30 @@ def get_data(url):
                 else:
                     break
 
-            num = None
+            # num = None
 
-            try:
-                time.sleep(1)
-                page = wait.until(lambda d: d.find_element(
-                    By.XPATH,
-                    '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/span',
-                ))
-                page = page.find_element(
-                    By.CSS_SELECTOR,
-                    '#workplaceForm\:disconnectionTabsView\:disconnectionReests_paginator_bottom > span > a.ui-paginator-page.ui-state-default.ui-state-active.ui-corner-all',
-                )
-                num = page.get_attribute('aria-label')
-            except Exception as ex:
-                print("label")
-                pprint(ex)
-            if num is not None:
-                parse_data(data=driver.page_source, name_subj=name_subj)
-                # ind_str = str(num)
-                # file_name = f'index{ind_str}.html'
-                # with open(f"./datas/{name_subj}.{file_name}", "w", encoding='utf-8') as file:
-                #     file.write(driver.page_source)
-                #     pprint(f'сохранен {file_name}')
-            time.sleep(1)
+            # try:
+            #     time.sleep(1)
+            #     page = wait.until(lambda d: d.find_element(
+            #         By.XPATH,
+            #         '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/span',
+            #     ))
+            #     page = page.find_element(
+            #         By.CSS_SELECTOR,
+            #         '#workplaceForm\:disconnectionTabsView\:disconnectionReests_paginator_bottom > span > a.ui-paginator-page.ui-state-default.ui-state-active.ui-corner-all',
+            #     )
+            #     num = page.get_attribute('aria-label')
+            # except Exception as ex:
+            #     print("label")
+            #     pprint(ex)
+            # if num is not None:
+            #     parse_data(data=driver.page_source, name_subj=name_subj)
+            #     # ind_str = str(num)
+            #     # file_name = f'index{ind_str}.html'
+            #     # with open(f"./datas/{name_subj}.{file_name}", "w", encoding='utf-8') as file:
+            #     #     file.write(driver.page_source)
+            #     #     pprint(f'сохранен {file_name}')
+            # time.sleep(1)
 
             cccc = 0
             while True:
@@ -245,7 +274,7 @@ def get_data(url):
                 except ElementNotInteractableException:
                     print("not pages")
                     cccc += 1
-                    time.sleep(1)
+                    time.sleep(2)
                     continue
                 else:
                     break
@@ -272,9 +301,9 @@ def parse_data(data, name_subj):
     starttimes = []
     finishdates = []
     finishtimes = []
-    supplys = []
-    nameworks = []
-    numpeops = []
+    # supplys = []
+    # nameworks = []
+    # numpeops = []
     # data_base = (subjects, organisations, filials, ress, munics, naspunkt, street, numofstr, startdatetime, finishdatetime, supply, namework, numpeop)
     data_base = {"col_subj":subjects,
                  "col_org": organisations,
@@ -287,10 +316,10 @@ def parse_data(data, name_subj):
                  "col_start_date": startdates,
                  "col_start_time": starttimes,
                  "col_fin_date": finishdates,
-                 "col_fin_time": finishtimes,
-                 "col_sup": supplys,
-                 "col_name": nameworks,
-                 "col_nump": numpeops}
+                 "col_fin_time": finishtimes}
+                 #"col_sup": supplys,
+                 #"col_name": nameworks,
+                 #"col_nump": numpeops}
 
     # for files in os.listdir('./datas'):
     #     file_name = os.path.basename(files)
@@ -420,26 +449,26 @@ def parse_data(data, name_subj):
         finishdates.append(finish_date)
         finishtimes.append(finish_time)
 
-    for some in all_cols[9::12]:
-        supply = some.text.strip().replace('\n', '')
-        # print(f'Оборудования = {supply}\nkey table = supply')
-        # data_base["col_sup"] = supply
-        # data_base[10].append(supply)
-        supplys.append(supply)
-
-    for some in all_cols[10::12]:
-        namework = some.text.strip().replace('\n', '')
-        # print(f'Наименование работ = {namework}\nkey table = namework')
-        # data_base["col_name"] = namework
-        # data_base[11].append(namework)
-        nameworks.append(namework)
-
-    for some in all_cols[11::12]:
-        numpeop = some.text.strip().replace('\n', '')
-        # print(f'Количество обесточенного населения = {numpeop}\nkey table = numpeop')
-        # data_base["col_nump"] = numpeop
-        # data_base[12].append(numpeop)
-        numpeops.append(numpeop)
+    # for some in all_cols[9::12]:
+    #     supply = some.text.strip().replace('\n', '')
+    #     # print(f'Оборудования = {supply}\nkey table = supply')
+    #     # data_base["col_sup"] = supply
+    #     # data_base[10].append(supply)
+    #     supplys.append(supply)
+    #
+    # for some in all_cols[10::12]:
+    #     namework = some.text.strip().replace('\n', '')
+    #     # print(f'Наименование работ = {namework}\nkey table = namework')
+    #     # data_base["col_name"] = namework
+    #     # data_base[11].append(namework)
+    #     nameworks.append(namework)
+    #
+    # for some in all_cols[11::12]:
+    #     numpeop = some.text.strip().replace('\n', '')
+    #     # print(f'Количество обесточенного населения = {numpeop}\nkey table = numpeop')
+    #     # data_base["col_nump"] = numpeop
+    #     # data_base[12].append(numpeop)
+    #     numpeops.append(numpeop)
 
     # print(len(data_base["col_subj"]))
     for i in range(len(data_base["col_subj"])):
@@ -462,10 +491,8 @@ def parse_data(data, name_subj):
                         startdate, 
                         starttime, 
                         finishdate, 
-                        finishtime, 
-                        supply, 
-                        namework, 
-                        numpeop)
+                        finishtime
+                        )
                         VALUES('{data_base['col_subj'][i]}', 
                         '{data_base['col_org'][i]}', 
                         '{data_base['col_fil'][i]}', 
@@ -477,11 +504,12 @@ def parse_data(data, name_subj):
                         '{data_base['col_start_date'][i]}', 
                         '{data_base['col_start_time'][i]}', 
                         '{data_base['col_fin_date'][i]}',
-                        '{data_base['col_fin_time'][i]}',
-                        '{data_base['col_sup'][i]}', 
-                        '{data_base['col_name'][i]}', 
-                        '{data_base['col_nump'][i]}');
+                        '{data_base['col_fin_time'][i]}');
                         ''')
+                        # '{data_base['col_sup'][i]}',
+                        # '{data_base['col_name'][i]}',
+                        # '{data_base['col_nump'][i]}');
+                        # ''')
         conn.commit()
         conn.close()
 
@@ -491,12 +519,12 @@ def main():
 
     get_data(url)
     # parse_data()
-    # conn = sqlite3.connect('discon.db')
-    # cur = conn.cursor()
-    # for row in cur.execute('SELECT * FROM disconections'):
-    #     print(row)
-    #
-    # conn.close()
+    conn = sqlite3.connect('discon.db')
+    cur = conn.cursor()
+    for row in cur.execute('SELECT * FROM disconections'):
+        print(row)
+
+    conn.close()
 
 
 if __name__ == "__main__":
