@@ -32,11 +32,12 @@ cur.execute('''CREATE TABLE IF NOT EXISTS disconections(
             startdate timestamp,
             starttime timestamp,
             finishdate timestamp,
-            finishtime timestamp,
-            supply TEXT,
-            namework TEXT,
-            numpeop INT);
+            finishtime timestamp);
             ''')
+            # supply TEXT,
+            # namework TEXT,
+            # numpeop INT);
+            # ''')
 cur.execute('DELETE FROM disconections;',);
 conn.commit()
 conn.close()
@@ -46,21 +47,23 @@ conn.close()
 path_drv = 'C:\\Users\\smurov.anatoliy\\PycharmProjects\\Asinc_pars_energ\\chromedriver.exe'
 url = 'https://xn----7sb7akeedqd.xn--p1ai/platform/portal/tehprisEE_disconnection'
 
+############ Количество страниц регионов и настройка дат и времени
 ids = list(range(85))
 date_start = datetime.now()
 date_start = date_start.strftime("%d.%m.%Y")
 date_end = datetime.now() + timedelta(days=1)
 date_end = date_end.strftime("%d.%m.%Y")
 
+############ Вебдрайвер и настройки для хрома
 options = webdriver.ChromeOptions()
-options.add_argument("start-maximized")
+# options.add_argument("start-maximized")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36")
-# options.add_argument("--headless")
-
+options.add_argument("--headless")
 driver = webdriver.Chrome(executable_path= path_drv, options= options)
-driver.implicitly_wait(2)
+driver.implicitly_wait(1)
 driver.set_page_load_timeout(20)
 
+########## Вебдрайвер и настройки для Firefox
 # options = webdriver.FirefoxOptions()
 # options.headless = False  #True - работа в фоне False - открытие браузера
 # options.set_preference(
@@ -74,33 +77,36 @@ driver.set_page_load_timeout(20)
 wait = ww(driver, 5)
 
 
+
 #################################################
 ###############  Перебор сайта  #################
 #################################################
 def get_data(url):
     driver.get(url=url)
-
     name_subj = ''
-    # вводим
+    # вводим в фильтр начало и окончание работ
     try:
         time.sleep(5)
         wait.until(
             lambda d: d.find_element(By.ID, 'workplaceForm:disconnectionTabsView:DataOtklFilter_input')).send_keys(
             date_start)
         pprint('ввод даты начало')
+        time.sleep(0.3)
         wait.until(lambda d: d.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt3994_input")).send_keys(
             '00:00')
         pprint('ввод время начало')
+        time.sleep(0.3)
         wait.until(
             lambda d: d.find_element(By.ID, "workplaceForm:disconnectionTabsView:DataRecoveryFilter_input")).send_keys(
             date_end)
         pprint('ввод дата окончания')
+        time.sleep(0.3)
         wait.until(lambda d: d.find_element(By.ID, "workplaceForm:disconnectionTabsView:j_idt4000_input")).send_keys(
             '00:00')
         pprint('ввод время окончания')
         time.sleep(1)
 
-
+        ####### Выбор субьекта РФ
         for i in range(85):
             # клик на фильтр субъекта
             cccc = 0
@@ -134,7 +140,7 @@ def get_data(url):
                     # print(name_subj)
                     sel_subj.click()
                     pprint('клик субъект')
-                    time.sleep(1)
+                    time.sleep(1.5)
                 except ElementNotInteractableException:
                     print("click subj")
                     time.sleep(1)
@@ -164,7 +170,7 @@ def get_data(url):
                     break
 
             pprint('клик показать')
-            time.sleep(2)
+            time.sleep(1.5)
 
 
             cccc=0
