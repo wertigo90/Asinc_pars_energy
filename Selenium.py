@@ -46,7 +46,7 @@ conn.close()
 
 ############ Выбор пути драйвера и сайта
 # path_drv = 'C:\\Users\\smurov.anatoliy\\PycharmProjects\\Asinc_pars_energ\\geckodriver.exe'# для Linux скачать соответствующий драйвер и указать путь.
-path_drv = 'C:\\Users\\smurov.anatoliy\\PycharmProjects\\Asinc_pars_energ\\chromedriver.exe'
+path_drv = 'D:\\Documents\\Programming\\pars_energ\\chromedriver.exe'
 url = 'https://xn----7sb7akeedqd.xn--p1ai/platform/portal/tehprisEE_disconnection'
 
 ############ Количество страниц регионов и настройка дат и времени
@@ -56,11 +56,11 @@ date_start = date_start.strftime("%d.%m.%Y")
 date_end = datetime.now() + timedelta(days=1)
 date_end = date_end.strftime("%d.%m.%Y")
 
-############ Вебдрайвер и настройки для хрома
+############ Вебдрайвер и настройки для Chrome
 options = webdriver.ChromeOptions()
-options.add_argument("start-maximized")
+# options.add_argument("start-maximized")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36")
-# options.add_argument("--headless")
+options.add_argument("--headless")
 driver = webdriver.Chrome(executable_path= path_drv, options= options)
 driver.implicitly_wait(1)
 driver.set_page_load_timeout(25)
@@ -76,6 +76,7 @@ driver.set_page_load_timeout(25)
 # profile.set_preference("network.proxy.type", 0) # Direct = 0 - без прокси
 # driver = webdriver.Firefox(executable_path=path_drv, options=options, firefox_profile=profile)
 # driver.maximize_window()
+
 wait = ww(driver, 10)
 
 
@@ -85,7 +86,7 @@ wait = ww(driver, 10)
 #################################################
 def get_data(url):
     driver.set_page_load_timeout(10)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(5)
     driver.get(url=url)
     name_subj = ''
     data_ids = driver.page_source
@@ -108,12 +109,9 @@ def get_data(url):
     # вводим в фильтр начало и окончание работ
     try:
         time.sleep(5)
-        # driver.find_element(By.ID, 'workplaceForm:disconnectionTabsView:DataOtklFilter_input').send_keys(date_start)
-        # wait.until(lambda d: d.find_element(By.ID, 'workplaceForm:disconnectionTabsView:DataOtklFilter_input')).clear()
         wait.until(
             lambda d: d.find_element(By.ID, 'workplaceForm:disconnectionTabsView:DataOtklFilter_input')).send_keys(
-            date_start)#.send_keys(Keys.ENTER)
-        # wait.until(lambda d: d.find_element(By.ID, 'workplaceForm:disconnectionTabsView:DataOtklFilter_input')).send_keys(Keys.ENTER)
+            date_start)
         pprint('ввод даты начало')
         time.sleep(0.3)
         wait.until(lambda d: d.find_element(By.ID, f"{idt_st_tm}_input")).send_keys(
@@ -132,79 +130,47 @@ def get_data(url):
 
         ####### Выбор субьекта РФ
         for i in range(85):
-            # клик на фильтр субъекта
-            # cccc = 0
-            # while True:
-            #     try:
-            #         wait.until(lambda d: d.find_element(By.ID, f"{id_sel}")).click()
-            #         pprint('клик фильтр')
-            #     # except ElementClickInterceptedException:
-            #     #     print('click filter')
-            #     #     time.sleep(1)
-            #     #     cccc+=1
-            #     #     continue
-            #     except Exception as ex:
-            #         print("_______________ERR________________")
-            #         print("select: ")
-            #         print(ex)
-            #         time.sleep(1)
-            #         cccc += 1
-            #         continue
-            #     else:
-            #         break
-            # Выбор субъекта из списка
-            # sel_subj = ww(driver, timeout=5).until(lambda d: d.find_element(By.ID, 'workplaceForm:disconnectionTabsView:j_idt3967_items'))
-
-            # while True:
             try:
-                wait.until(lambda d: d.find_element(By.XPATH, f'//*[@id="{id_show}"]')).click()
-                # wait.until(lambda d: d.find_element(By.ID, f"{id_sel}")).click()
-                sel_subj = wait.until(lambda d: d.find_element(By.ID, f"{id_sel}_{i}"))  # {i}"))
+                wait.until(lambda d: d.find_element(By.ID, f"{id_sel}_label")).click()
+                sel_subj = wait.until(lambda d: d.find_element(By.ID, f"{id_sel}_{i}"))
                 pprint('выбор субъекта')
                 name_subj = sel_subj.get_attribute('data-label')
-                # try:
-                #     os.mkdir(f'{name_subj}')
-                # except Exception as ex:
-                #     print(ex)
-                # print(name_subj)
                 sel_subj.click()
                 pprint('клик субъект')
-                time.sleep(2)
+                time.sleep(1)
             except ElementNotInteractableException:
                 print("_______________ERR________________")
                 print("click subj")
-                time.sleep(2)
-                # cccc += 1
+                time.sleep(1)
                 continue
-            # except Exception as ex:
-            #     print (ex)
 
-            # Клик на показать
             cccc = 0
             while True:
                 try:
-                    # click = wait.until(EC.element_to_be_clickable((By.ID, f"{id_show}")))
                     click = wait.until(lambda d:d.find_element(By.ID, f'{id_show}'))
                     click.click()
-                    time.sleep(2)
+                    time.sleep(1)
 
                 except ElementClickInterceptedException:
                     print("_______________ERR________________")
                     print('click show')
-                    # cccc += 1
-                    # time.sleep(1)
-                    # continue
+
+                except StaleElementReferenceException:
+                    print('_________________INFO________________')
+                    print('пробуюу нажать кнопку показать')
+                    continue
 
                 # except Exception as ex:
                 #     print("_______________ERR________________")
                 #     print("_______________________________________________________________________________")
                 #     print(ex)
+
                 else:
                     print('ошибка показать')
                     break
 
             pprint('клик показать')
-            time.sleep(2)
+            time.sleep(1)
 
             cccc = 0
             # показывать по 15
@@ -213,7 +179,6 @@ def get_data(url):
                     driver.find_element(By.XPATH,
                                         '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/div/ul/li[3]').click()
                     time.sleep(0.5)
-
 
                 except Exception as ex:
                     print("_______________ERR________________")
@@ -225,10 +190,7 @@ def get_data(url):
                 else:
                     break
 
-
-
             #проверка индекса страницы
-
             cccc = 0
             while cccc<5:
                 try:
@@ -238,67 +200,18 @@ def get_data(url):
                     if label != 1:
                         try:
                             pagenator.click()
-                            time.sleep(0.5)
+                            time.sleep(0.3)
                         except ElementNotInteractableException:
                             print("_______________ERRR______________")
-                            print("НЕТ ПАГИНАТОРА")
+                            print("НЕТ ПАГИНАТОРА, пробуюу еще")
                             cccc+=1
                             continue
                         else:
                             break
+                            print("Продолжаю")
                 except Exception as ex:
-                    print('__________________________________________')
+                    print('__________________ERRRROOOOORRRRRR________________________')
                     print(ex)
-
-
-            # pagenator = driver.find_element(By.CLASS_NAME, "ui-paginator-pages")
-            # page_num = driver.find_element(By.XPATH, '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/a[1]')
-            # label = page_num.get_attribute('aria-label')
-            # print(pagenator)
-            # if pagenator:
-            #     # start_page = driver.find_element(By.XPATH, '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/a[1]')
-            #     try:
-            #         pagenator.click()
-            #         time.sleep(1)
-            #
-            #     except ElementNotInteractableException:
-            #         print("_______________ERRR______________")
-            #         print("НЕТ ПАГИНАТОРА")
-            #         # continue
-            #     else:
-            #         break
-
-            # # показать первую страницу
-            # cccc=0
-            # while cccc<10:
-            #     try:
-            #         start_page = driver.find_element(By.XPATH, '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/a[1]')
-            #         start_page.click()
-            #
-            #     except ElementNotInteractableException:
-            #         print("_______________ERR________________")
-            #         print('Не могу нажать на первую страницу')
-            #         print(10 - cccc)
-            #         cccc+=1
-            #         time.sleep(0.3)
-            #         continue
-            #     else:
-            #         break
-
-
-            # # показать следующую страницу
-            # next = driver.find_element(By.XPATH, '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/a[3]')
-            # if next:
-            #     while True:
-            #         try:
-            #             next.click()
-            #         except ElementNotInteractableException:
-            #             print("_______________ERR________________")
-            #             print("нет следующей страницы")
-            #             # print(ex)
-            #             continue
-            #         else:
-            #             break
 
             try:
                 page_ind = wait.until(lambda d: d.find_element(
@@ -314,9 +227,11 @@ def get_data(url):
                 print(ind_str)
                 if ind_str > 0:
                     parse_data(data=driver.page_source, name_subj=name_subj)
+
             except Exception as ex:
-                print("222222222222222222222222222222222222222222")
-                print(ex)
+                print("_______________INFO________________")
+                print("Отсутствует элемент")
+                # print(ex)
                 continue
 
             while True:
@@ -331,28 +246,26 @@ def get_data(url):
                                     nexts.click()
                                     pprint('клик след страница')
                                     time.sleep(1.5)
-                                    # page = wait.until(lambda d: d.find_element(
-                                    #     By.XPATH,
-                                    #     '//*[@id="workplaceForm:disconnectionTabsView:disconnectionReests_paginator_bottom"]/span',
-                                    # ))
-                                    #
-                                    # page = page.find_element(
-                                    #     By.CSS_SELECTOR,
-                                    #     '#workplaceForm\:disconnectionTabsView\:disconnectionReests_paginator_bottom > span > a.ui-paginator-page.ui-state-default.ui-state-active.ui-corner-all',
-                                    # )
-                                    # num = page.get_attribute('aria-label')
-                                    # ind_str = str(num)
                                     parse_data(data= driver.page_source, name_subj=name_subj)
-                                    # file_name = f'index{ind_str}.html'
-                                    # with open(f"./datas/{name_subj}.{file_name}", "w", encoding='utf-8') as file:
-                                    #     file.write(driver.page_source)
-                                    #     pprint(f'сохранен {file_name}')
                                     time.sleep(1)
+
+                                except ElementClickInterceptedException:
+                                    print("___________________ERR_______________")
+                                    print("Ошибка Клик перехвачен")
+                                    continue
+
+                                except ElementNotInteractableException:
+                                    print("_______________ERR________________")
+                                    print("Элемент не интерактивен!")
+                                    break
+
                                 except Exception as ex:
                                     print("___________________ERR_______________")
-                                    print("3333333333333333333333333333333333333")
                                     print(ex)
-                                    continue
+                                    # print(ex)
+                                    break
+                                else:
+                                    break
                             else:
                                 print("yce")
                                 break
@@ -372,6 +285,7 @@ def get_data(url):
                     time.sleep(1)
                     continue
                 else:
+                    print("Следующий субьект")
                     break
 
     # except TimeoutException:
@@ -388,13 +302,9 @@ def get_data(url):
     except ElementNotInteractableException:
         print("_______________ERR________________")
         print("errr errr errr errr ХЗ ХЗ ХЗ err err err")
-        # pprint(ex)
-        # continue
-
-    # else:
-    #     break
 
     finally:
+        print("all done may be")
         driver.close()
         driver.quit()
 
@@ -626,12 +536,7 @@ def parse_data(data, name_subj):
         conn.commit()
         conn.close()
 
-
-def main():
-    # pprint(ids)
-
-    get_data(url)
-    # parse_data()
+def prnt_db():
     conn = sqlite3.connect('discon.db')
     cur = conn.cursor()
     for row in cur.execute('SELECT * FROM disconections'):
@@ -639,6 +544,10 @@ def main():
 
     conn.close()
 
+
+def main():
+    get_data(url)
+    prnt_db()
 
 if __name__ == "__main__":
     main()
