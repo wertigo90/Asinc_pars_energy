@@ -62,7 +62,7 @@ options = webdriver.ChromeOptions()
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36")
 options.add_argument("--headless")
 driver = webdriver.Chrome(executable_path= path_drv, options= options)
-driver.implicitly_wait(1)
+driver.implicitly_wait(2)
 driver.set_page_load_timeout(25)
 
 ########## Вебдрайвер и настройки для Firefox
@@ -86,7 +86,7 @@ wait = ww(driver, 10)
 #################################################
 def get_data(url):
     driver.set_page_load_timeout(10)
-    driver.implicitly_wait(5)
+    # driver.implicitly_wait(5)
     driver.get(url=url)
     name_subj = ''
     data_ids = driver.page_source
@@ -137,11 +137,11 @@ def get_data(url):
                 name_subj = sel_subj.get_attribute('data-label')
                 sel_subj.click()
                 pprint('клик субъект')
-                time.sleep(1)
+                time.sleep(0.5)
             except ElementNotInteractableException:
                 print("_______________ERR________________")
                 print("click subj")
-                time.sleep(1)
+                time.sleep(0.5)
                 continue
 
             cccc = 0
@@ -149,7 +149,7 @@ def get_data(url):
                 try:
                     click = wait.until(lambda d:d.find_element(By.ID, f'{id_show}'))
                     click.click()
-                    time.sleep(1)
+                    time.sleep(0.5)
 
                 except ElementClickInterceptedException:
                     print("_______________ERR________________")
@@ -170,7 +170,7 @@ def get_data(url):
                     break
 
             pprint('клик показать')
-            time.sleep(1)
+            time.sleep(0.5)
 
             cccc = 0
             # показывать по 15
@@ -245,9 +245,9 @@ def get_data(url):
                                 try:
                                     nexts.click()
                                     pprint('клик след страница')
-                                    time.sleep(1.5)
-                                    parse_data(data= driver.page_source, name_subj=name_subj)
                                     time.sleep(1)
+                                    parse_data(data= driver.page_source, name_subj=name_subj)
+                                    time.sleep(0.5)
 
                                 except ElementClickInterceptedException:
                                     print("___________________ERR_______________")
@@ -282,10 +282,15 @@ def get_data(url):
                     print("_______________ERR________________")
                     print("not pages")
                     cccc += 1
-                    time.sleep(1)
+                    time.sleep(0.5)
                     continue
                 else:
                     print("Следующий субьект")
+                    print("___________________________________________")
+                    print("_______________ВЫПОЛНЕНО___________________")
+                    print(f"__________________{round(100/85*i)} %_____________________")
+                    print("___________________________________________")
+                    print("___________________________________________")
                     break
 
     # except TimeoutException:
@@ -548,6 +553,7 @@ def prnt_db():
 def main():
     get_data(url)
     prnt_db()
+    print("ALL DONE")
 
 if __name__ == "__main__":
     main()
