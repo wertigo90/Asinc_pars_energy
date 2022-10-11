@@ -1,2 +1,5 @@
 firefox
-pip install selenium, BeautifulSoup4, lxml, webdriver-manager
+pip install selenium
+pip install BeautifulSoup4
+pip install lxml
+pip install webdriver-manager
