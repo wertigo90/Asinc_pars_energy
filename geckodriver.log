@@ -13395,3 +13395,87 @@ console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message f
 console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
 console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
 1664434135748	Marionette	INFO	Stopped listening on port 56786
+1665489167939	geckodriver	INFO	Listening on 127.0.0.1:59207
+1665489168447	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-headless" "--remote-debugging-port" "59208" "-no-remote" "-profile" "C:\\Users\\SMUROV~1.ANA\\AppData\\Local\\Temp\\rust_mozprofilebTCZnd"
+*** You are running in headless mode.
+1665489169893	Marionette	INFO	Marionette enabled
+1665489169908	Marionette	INFO	Listening on port 59214
+WebDriver BiDi listening on ws://localhost:59208
+1665489170239	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\SMUROV~1.ANA\\AppData\\Local\\Temp\\rust_mozprofilebTCZnd\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:59208/devtools/browser/fe0e904a-c53c-4619-bcf1-c72137465228
+console.error: services.settings: 
+  main/query-stripping Signature failed  InvalidSignatureError: Invalid content signature (main/query-stripping)
+console.error: services.settings: 
+  main/query-stripping local data was corrupted
+console.warn: services.settings: main/query-stripping Signature verified failed. Retry from scratch
+console.error: services.settings: 
+  main/query-stripping Signature failed again InvalidSignatureError: Invalid content signature (main/query-stripping)
+1665489179034	geckodriver	INFO	Listening on 127.0.0.1:59369
+1665489179567	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-headless" "--remote-debugging-port" "59370" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\SMUROV~1.ANA\\AppData\\Local\\Temp\\rust_mozprofileSq74wE"
+*** You are running in headless mode.
+1665489180251	Marionette	INFO	Marionette enabled
+1665489180259	Marionette	INFO	Listening on port 59388
+WebDriver BiDi listening on ws://localhost:59370
+Read port: 59388
+1665489180439	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\SMUROV~1.ANA\\AppData\\Local\\Temp\\rust_mozprofileSq74wE\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:59370/devtools/browser/fa01b97f-49b5-42b8-bf7d-10094878d09d
+console.error: services.settings: 
+  main/query-stripping Signature failed  InvalidSignatureError: Invalid content signature (main/query-stripping)
+console.error: services.settings: 
+  main/query-stripping local data was corrupted
+console.warn: services.settings: main/query-stripping Signature verified failed. Retry from scratch
+console.error: services.settings: 
+  main/query-stripping Signature failed again InvalidSignatureError: Invalid content signature (main/query-stripping)
+JavaScript warning: https://mc.yandex.ru/metrika/watch.js, line 18: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript error: , line 0: uncaught exception: Плагин недоступен
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+1665489307745	geckodriver	INFO	Listening on 127.0.0.1:60684
+1665489308238	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-headless" "--remote-debugging-port" "60685" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\SMUROV~1.ANA\\AppData\\Local\\Temp\\rust_mozprofile2BY26u"
+*** You are running in headless mode.
+1665489308932	Marionette	INFO	Marionette enabled
+1665489308939	Marionette	INFO	Listening on port 60714
+WebDriver BiDi listening on ws://localhost:60685
+Read port: 60714
+1665489309112	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\SMUROV~1.ANA\\AppData\\Local\\Temp\\rust_mozprofile2BY26u\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:60685/devtools/browser/8e0c119d-4036-4f0f-8457-8883a1dd3507
+console.error: services.settings: 
+  main/query-stripping Signature failed  InvalidSignatureError: Invalid content signature (main/query-stripping)
+console.error: services.settings: 
+  main/query-stripping local data was corrupted
+console.warn: services.settings: main/query-stripping Signature verified failed. Retry from scratch
+console.error: services.settings: 
+  main/query-stripping Signature failed again InvalidSignatureError: Invalid content signature (main/query-stripping)
+JavaScript warning: https://mc.yandex.ru/metrika/watch.js, line 18: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript error: , line 0: uncaught exception: Плагин недоступен
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://\u043F\u043E\u0440\u0442\u0430\u043B-\u0442\u043F.\u0440\u0444"
