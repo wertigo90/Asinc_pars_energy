@@ -46,7 +46,8 @@ conn.commit()
 conn.close()
 
 ############ Выбор пути драйвера и сайта
-# path_drv = 'geckodriver.exe' #Для использования в linux используем "geckodriver"
+path_drv = 'geckodriver' #Для использования в linux используем "geckodriver"
+auto_drv = GeckoDriverManager().install()#Для автоматического скачивания свежего драйвера браузера firefox
 url = 'https://xn----7sb7akeedqd.xn--p1ai/platform/portal/tehprisEE_disconnection'
 
 ############ Количество страниц регионов и настройка дат и времени
@@ -63,8 +64,8 @@ options.set_preference(
     'general.useragent.override',
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36',
 )
-# driver = webdriver.Firefox(executable_path=path_drv, options=options) #Для скачанного локально драйвера браузера
-driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options) #Для автоматического скачивания свежего драйвера браузера firefox
+driver = webdriver.Firefox(executable_path=path_drv, options=options) #Для скачанного локально драйвера браузера
+# driver = webdriver.Firefox(executable_path=auto_drv, options=options)
 wait = ww(driver, 10)
 
 
