@@ -142,6 +142,7 @@ def get_data(url):
                 except ElementClickInterceptedException:
                     # print("_______________ERR________________")
                     # print('click show')
+                    pass
 
                 except StaleElementReferenceException:
                     # print('_________________INFO________________')
