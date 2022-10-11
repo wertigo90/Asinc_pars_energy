@@ -46,7 +46,7 @@ conn.close()
 
 ############ Выбор пути драйвера и сайта
 # path_drv = 'C:\\Users\\smurov.anatoliy\\PycharmProjects\\Asinc_pars_energ\\geckodriver.exe'# для Linux скачать соответствующий драйвер и указать путь.
-path_drv = 'D:\\Documents\\Programming\\pars_energ\\chromedriver.exe'
+path_drv = 'chromedriver.exe'
 url = 'https://xn----7sb7akeedqd.xn--p1ai/platform/portal/tehprisEE_disconnection'
 
 ############ Количество страниц регионов и настройка дат и времени
@@ -58,10 +58,10 @@ date_end = date_end.strftime("%d.%m.%Y")
 
 ############ Вебдрайвер и настройки для Chrome
 options = webdriver.ChromeOptions()
-# options.add_argument("start-maximized")
+options.add_argument("start-maximized")
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36")
-options.add_argument("--headless")
-driver = webdriver.Chrome(executable_path= path_drv, options= options)
+# options.add_argument("--headless")
+driver = webdriver.Chrome(executable_path=path_drv, options= options)
 driver.implicitly_wait(2)
 driver.set_page_load_timeout(25)
 
@@ -157,7 +157,7 @@ def get_data(url):
 
                 except StaleElementReferenceException:
                     print('_________________INFO________________')
-                    print('пробуюу нажать кнопку показать')
+                    print('пробую нажать кнопку показать')
                     continue
 
                 # except Exception as ex:
@@ -203,7 +203,7 @@ def get_data(url):
                             time.sleep(0.3)
                         except ElementNotInteractableException:
                             print("_______________ERRR______________")
-                            print("НЕТ ПАГИНАТОРА, пробуюу еще")
+                            print("НЕТ ПАГИНАТОРА, пробую еще")
                             cccc+=1
                             continue
                         else:
