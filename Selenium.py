@@ -77,6 +77,7 @@ def get_data(url):
     driver.implicitly_wait(5)
     driver.get(url=url)
     name_subj = ''
+    time.sleep(3)
     data_ids = driver.page_source
 
     # поиск актуальных ids
