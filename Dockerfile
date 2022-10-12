@@ -2,7 +2,8 @@
 FROM ubuntu:20.04
 
 # install app dependencies
-RUN apt update && apt install -y python3 python3-pip
+RUN apt update 
+RUN apt install -y python3 python3-pip
 RUN apt install -y openjdk-8-jdk
 RUN apt install -y openjdk-8-jre
 RUN apt install -y firefox
