@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM ubuntu:20.04
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # install app dependencies
 RUN apt update 
 RUN apt install -y python3 python3-pip
@@ -14,11 +16,13 @@ RUN pip install lxml
 RUN pip install webdriver-manager
 RUN mkdir selen
 RUN cd selen/
-RUN git clone https://github.com/wertigo90/Asinc_pars_energy
-RUN cd Asinc_pars_energy/
-RUN Selenium.py
 
+COPY Selenium.py /selen/
 
+WORKDIR /selen/
+
+ENTRYPOINT ["python3"]
+CMD ["Selenium.py"]
 
 
 
